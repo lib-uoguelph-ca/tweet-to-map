@@ -1,37 +1,20 @@
-import twitter
+import tweepy
 import secrets
 from pprint import pprint
-from sys import exit
+from util import getPlaceID
 
-
-api = twitter.Api(
-    consumer_key=unicode(secrets.consumer_key),
-    consumer_secret=unicode(secrets.consumer_secret),
-    access_token_key=unicode(secrets.access_token_key),
-    access_token_secret=unicode(secrets.access_token_secret)
-)
-
-user = api.VerifyCredentials()
-
-if not user:
-    print "Invalid credentials"
-    exit()
+auth = tweepy.OAuthHandler(secrets.consumer_key, secrets.consumer_secret)
+auth.set_access_token(secrets.access_token_key, secrets.access_token_secret)
+api = tweepy.API(auth)
 
 search_term = "Android"
-latitude = 43.653226
-longitude = -79.383184
-radius = "50mi"
 
-results = api.GetSearch(term=search_term, geocode=(latitude, longitude, radius), count=100)
+place = getPlaceID(api=api, place="Canada")
+query = "place:{place}".format(place=place)
+if search_term:
+    query += " " + search_term
+tweets = api.search(q=query, count=100)
 
-for tweet in results:
-    print "--Tweet--"
-    pprint(tweet.text)
-    print "--Geo--"
-    pprint(tweet.geo)
-    print "--Place--"
-    pprint(tweet.place)
-    print "--Tags--"
-    for tag in tweet.hashtags:
-        print "#" + tag.text
-    print "\n\n"
+print len(tweets)
+#for tweet in tweets:
+#x`    pprint(tweet)
