@@ -8,3 +8,4 @@ def getPlaceID(api, place, granularity="country"):
     if not places:
         raise ValueError("Bad place name.")
     return places[0].id
+
