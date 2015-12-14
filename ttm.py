@@ -7,14 +7,17 @@ auth = tweepy.OAuthHandler(secrets.consumer_key, secrets.consumer_secret)
 auth.set_access_token(secrets.access_token_key, secrets.access_token_secret)
 api = tweepy.API(auth)
 
-search_term = "BecauseIts2015"
-location_term = None
+search_term = ""
+location_term = "Canada"
+location_granularity = "country"
 
 query = ""
 if(location_term):
-    place = getPlaceID(api=api, place=location_term)
-    if(place):
+    try:
+        place = getPlaceID(api=api, place=location_term, granularity=location_granularity)
         query += "place:{place}".format(place=place)
+    except ValueError:
+        print "Bad location name, ignoring."
 
 if search_term:
     query += " " + search_term
@@ -25,7 +28,7 @@ count = len(tweets)
 print "{count} Results found".format(count=count)
 
 for tweet in tweets:
-    #pprint(tweet)
+    pprint(tweet.text)
     print "Place: "
     pprint(tweet.place)
     place = tweet.place
