@@ -44,8 +44,26 @@ location_term = "Canada"
 location_granularity = "country"
 results_per_page = 10 #Max 100
 result_page_count = 2
-output_fields = ["text", "created_at", "name", "screen_name", "location", "geo_enabled",  "latitude", "longitude", "place", ]
-output_fields = ["text", "created_at", "name", "screen_name", "location", "geo_enabled",  "latitude", "longitude"]
+output_fields = \
+    ["text",
+     "created_at",
+     "name",
+     "screen_name",
+     "location",
+     "geo_enabled",
+     "latitude",
+     "longitude",
+     "place_name",
+     "place_country",
+     "place_bounding_1_lat",
+     "place_bounding_1_long",
+     "place_bounding_2_lat",
+     "place_bounding_2_long",
+     "place_bounding_3_lat",
+     "place_bounding_3_long",
+     "place_bounding_4_lat",
+     "place_bounding_4_long"
+     ]
 
 query = ""
 if(location_term):

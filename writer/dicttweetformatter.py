@@ -1,4 +1,5 @@
 from tweetformatter import TweetFormatter
+from pprint import pprint
 import types
 
 class DictTweetFormatter(TweetFormatter):
@@ -57,6 +58,145 @@ class DictTweetFormatter(TweetFormatter):
             return ""
 
         return geo["coordinates"][1]
+
+    def place_name(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        return place["name"]
+
+    def place_country(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        return place["country"]
+
+    def place_bounding_1_lat(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[0]
+
+    def place_bounding_1_long(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[1]
+
+    def place_bounding_2_lat(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[0]
+
+    def place_bounding_2_long(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[1]
+
+    def place_bounding_3_lat(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[0]
+
+    def place_bounding_3_long(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[1]
+
+    def place_bounding_4_lat(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[0]
+
+    def place_bounding_4_long(self):
+        if "place" not in self.tweet:
+            return ""
+
+        place = self.tweet["place"]
+
+        if not place:
+            return ""
+
+        bounding_box = place['bounding_box']["coordinates"]
+        pair = self._get_bounding_param(bounding_box, 1)
+
+        return pair[1]
+
+    def _get_bounding_param(self, bounding_box, index):
+        pair = bounding_box[0][index]
+        return pair
+
 
     def _encode(self, value):
         print value
