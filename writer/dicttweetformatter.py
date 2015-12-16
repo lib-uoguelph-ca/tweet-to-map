@@ -1,4 +1,5 @@
 from tweetformatter import TweetFormatter
+import types
 
 class DictTweetFormatter(TweetFormatter):
 
@@ -15,23 +16,27 @@ class DictTweetFormatter(TweetFormatter):
 
     def getFieldValue(self, field):
         if field in self.tweet:
-            return self.tweet[field]
+            value = self.tweet[field]
+            value = self._stringify(value)
+            return value
         else:
-            return getattr(self, field)()
+            value = getattr(self, field)()
+            value = self._stringify(value)
+            return value
 
-    def _name(self):
+    def name(self):
         return self.tweet["user"]["name"]
 
-    def _screen_name(self):
+    def screen_name(self):
         return self.tweet["user"]["screen_name"]
 
-    def _location(self):
+    def location(self):
         return self.tweet["user"]["location"]
 
-    def _geo_enabled(self):
+    def geo_enabled(self):
         return self.tweet["user"]["geo_enabled"]
 
-    def _longitude(self):
+    def longitude(self):
         if "geo" not in self.tweet:
             return ""
 
@@ -42,7 +47,7 @@ class DictTweetFormatter(TweetFormatter):
 
         return geo["coordinates"][0]
 
-    def _latitude(self):
+    def latitude(self):
         if "geo" not in self.tweet:
             return ""
 
@@ -53,4 +58,17 @@ class DictTweetFormatter(TweetFormatter):
 
         return geo["coordinates"][1]
 
+    def _encode(self, value):
+        print value
+        decoded = value.decode('utf8')
+        print decoded
+        return decoded.encode('ascii', errors='backslashreplace')
 
+    def _stringify(self, value):
+        if type(value) == types.BooleanType:
+            value = str(value)
+
+        if type(value) == types.FloatType:
+            value = str(value)
+
+        return value
