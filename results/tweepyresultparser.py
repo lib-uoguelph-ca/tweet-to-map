@@ -1,6 +1,4 @@
 from results import ResultParser
-from pprint import pprint
-from json import JSONEncoder
 import json
 
 class TweepyResultParser(ResultParser):
