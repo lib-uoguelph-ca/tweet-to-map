@@ -1,11 +1,15 @@
 import tweepy
 import secrets
-from pprint import pprint
-from util import getPlaceID
+import json
 
-def processCursorResults(tweets, max_results = 1000):
+from pprint import pprint
+from places import get_place_id
+from writer import CSVTweetWriter
+from results import TweepyResultParser
+
+def process_cursor_results(tweets, max_results = 1000):
     #count = tweets.items().limit
-    #print "{count} Results found".format(count=count)
+    #print "{count} results found".format(count=count)
 
     num_found = 0;
     for tweet in tweets.items():
@@ -38,12 +42,15 @@ api = tweepy.API(
 search_term = ""
 location_term = "Canada"
 location_granularity = "country"
-max_result_count = 1000
+results_per_page = 10 #Max 100
+result_page_count = 2
+output_fields = ["text", "_name", "_screen_name", "_location", "_geo_enabled",  "_latitude", "_longitude", "_place"]
+output_fields = ["text", "_name", "_screen_name", "_location", "_geo_enabled",  "_latitude", "_longitude"]
 
 query = ""
 if(location_term):
     try:
-        place = getPlaceID(api=api, place=location_term, granularity=location_granularity)
+        place = get_place_id(api=api, place=location_term, granularity=location_granularity)
         query += "place:{place}".format(place=place)
     except ValueError:
         print "Bad location name, ignoring."
@@ -51,8 +58,10 @@ if(location_term):
 if search_term:
     query += " " + search_term
 
-#tweets = api.search(q=query, count=100)
-
-tweets = tweepy.Cursor(api.search, q=query, count=100)
-processCursorResults(tweets, 200)
+tweets = tweepy.Cursor(api.search, q=query, count=results_per_page)
+#process_cursor_results(tweets, 200)
+for page in tweets.pages(result_page_count):
+    parser  = TweepyResultParser(page)
+    writer = CSVTweetWriter(parser.getJSON(), "/tmp/ttm.csv", output_fields)
+    writer.write()
 print "DONE!!"

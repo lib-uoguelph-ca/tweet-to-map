@@ -1,9 +1,11 @@
 
-def getPlaces(api, place, granularity="country"):
+def get_places(api, place, granularity="country"):
     places = api.geo_search(query=place, granularity=granularity)
+    if not places:
+        raise ValueError("Bad place name.")
     return places
 
-def getPlaceID(api, place, granularity="country"):
+def get_place_id(api, place, granularity="country"):
     places = api.geo_search(query=place, granularity=granularity)
     if not places:
         raise ValueError("Bad place name.")
