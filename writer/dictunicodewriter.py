@@ -1,3 +1,12 @@
+"""
+This file shamelessly stolen from:
+http://stackoverflow.com/questions/5838605/python-dictwriter-writing-utf-8-encoded-csv-files
+
+CSV writer doesn't support unicode characters by default.
+This class provides a DictWriter with unicode support.
+"""
+
+
 import csv
 import cStringIO
 import codecs
