@@ -61,6 +61,7 @@ if search_term:
 tweets = tweepy.Cursor(api.search, q=query, count=results_per_page)
 #process_cursor_results(tweets, 200)
 for page in tweets.pages(result_page_count):
+    print "PAGE"
     parser  = TweepyResultParser(page)
     writer = CSVTweetWriter(parser.getJSON(), "/tmp/ttm.csv", output_fields)
     writer.write()
