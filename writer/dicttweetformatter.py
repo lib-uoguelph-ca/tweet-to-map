@@ -41,7 +41,7 @@ class DictTweetFormatter(TweetFormatter):
         if "geo" not in self.tweet:
             return ""
 
-        geo = self.tweet["geo"]
+        geo = self.tweet["coordinates"]
 
         if not geo:
             return ""
@@ -52,7 +52,7 @@ class DictTweetFormatter(TweetFormatter):
         if "geo" not in self.tweet:
             return ""
 
-        geo = self.tweet["geo"]
+        geo = self.tweet["coordinates"]
 
         if not geo:
             return ""
